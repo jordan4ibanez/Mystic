@@ -16,14 +16,15 @@ make bushes drop fruits on right click and regrow fruits over time (abm)
 ]]--
 
 berries_func = {}
-berries_func.octaves       = 5
+berries_func.octaves       = 2
 berries_func.scale         = 0.01
 
 berries_func.common_offset = -0.001
-berries_func.common_spread = 100
+berries_func.common_spread = 10
 berries_func.common_persist= 0.1
+
 berries_func.growth_delay  = 200
-berries.func.growth_chance = 5
+berries_func.growth_chance = 5
 
 
 local seed = minetest.get_mapgen_params().seed
@@ -66,7 +67,7 @@ minetest.register_abm({
 	nodenames = {"bushes:snowberry_empty"},
 	neighbors = {"air"},
 	interval = berries_func.growth_delay,
-	chance = berries.func.growth_chance,
+	chance = berries_func.growth_chance,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		minetest.set_node(pos, {name = "bushes:snowberry"})
 	end,
@@ -137,7 +138,7 @@ minetest.register_abm({
 	nodenames = {"bushes:blueberry_empty"},
 	neighbors = {"air"},
 	interval = berries_func.growth_delay,
-	chance = berries.func.growth_chance,
+	chance = berries_func.growth_chance,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		minetest.set_node(pos, {name = "bushes:blueberry"})
 	end,
@@ -212,7 +213,7 @@ minetest.register_abm({
 	nodenames = {"bushes:raspberry_empty"},
 	neighbors = {"air"},
 	interval = berries_func.growth_delay,
-	chance = berries.func.growth_chance,
+	chance = berries_func.growth_chance,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		minetest.set_node(pos, {name = "bushes:raspberry"})
 	end,
@@ -290,7 +291,7 @@ minetest.register_abm({
 	nodenames = {"bushes:mountainberry_empty"},
 	neighbors = {"air"},
 	interval = berries_func.growth_delay,
-	chance = berries.func.growth_chance,
+	chance = berries_func.growth_chance,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		minetest.set_node(pos, {name = "bushes:mountainberry"})
 	end,
@@ -365,7 +366,7 @@ minetest.register_abm({
 	nodenames = {"bushes:desertberry_empty"},
 	neighbors = {"air"},
 	interval = berries_func.growth_delay,
-	chance = berries.func.growth_chance,
+	chance = berries_func.growth_chance,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		minetest.set_node(pos, {name = "bushes:desertberry"})
 	end,
@@ -440,7 +441,7 @@ minetest.register_abm({
 	nodenames = {"bushes:strawberry_empty"},
 	neighbors = {"air"},
 	interval = berries_func.growth_delay,
-	chance = berries.func.growth_chance,
+	chance = berries_func.growth_chance,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		minetest.set_node(pos, {name = "bushes:strawberry"})
 	end,
