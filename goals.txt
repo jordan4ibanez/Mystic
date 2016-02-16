@@ -34,6 +34,6 @@ GOALS:
 
 # find if unified inventory is not loading in all items
 
-
+# make drinks replenish stamina maybe
 
 ]]--
