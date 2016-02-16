@@ -5,6 +5,13 @@ minetest.register_node("farming:soil", {
 	drop = "default:dirt",
 	groups = {crumbly = 3, not_in_creative_inventory = 1, soil = 2},
 	sounds = default.node_sound_dirt_defaults(),
+	paramtype = "light",
+	drawtype = "nodebox",
+	node_box = {
+				type = "fixed",
+				fixed = {-0.5, -0.5, -0.5, 0.5, 0.4, 0.5},
+			},
+	selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.4, 0.5},
 })
 
 -- wet soil
@@ -13,7 +20,14 @@ minetest.register_node("farming:soil_wet", {
 	tiles = {"default_dirt.png^farming_soil_wet.png", "default_dirt.png^farming_soil_wet_side.png"},
 	drop = "default:dirt",
 	groups = {crumbly = 3, not_in_creative_inventory = 1, soil = 3},
+	drawtype = "nodebox",
 	sounds = default.node_sound_dirt_defaults(),
+	paramtype = "light",
+	node_box = {
+				type = "fixed",
+				fixed = {-0.5, -0.5, -0.5, 0.5, 0.4, 0.5},
+			},
+	selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.4, 0.5},
 })
 
 -- sand is not soil, change existing sand-soil to use normal soil

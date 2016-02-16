@@ -28,6 +28,12 @@ GOALS:
 
 # Make jungle plants drop green dye as well as cotton seed
 
-# Make drinking drinks replenish stamina
+# Make drinking drinks replenish stamina with a drinking effect like eating except it flows out of the players mouth like spit
+
+# make junglegrass drop cotton as well as self
+
+# find if unified inventory is not loading in all items
+
+
 
 ]]--

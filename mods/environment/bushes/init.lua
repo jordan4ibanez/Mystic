@@ -3,7 +3,7 @@ berries_func = {}
 berries_func.octaves       = 3
 berries_func.scale         = 0.001
 berries_func.common_offset = 0
-berries_func.common_spread = 100
+berries_func.common_spread = 1000
 berries_func.common_persist= 0.0
 
 berries_func.growth_delay  = 200
