@@ -20,7 +20,7 @@ berries_func.octaves       = 2
 berries_func.scale         = 0.01
 
 berries_func.common_offset = -0.001
-berries_func.common_spread = 10
+berries_func.common_spread = 1000
 berries_func.common_persist= 0.1
 
 berries_func.growth_delay  = 200
