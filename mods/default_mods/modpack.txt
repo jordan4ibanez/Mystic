@@ -1,0 +1,1 @@
+These are the default mods in minetest_game.

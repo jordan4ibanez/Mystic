@@ -1,0 +1,3 @@
+electronic point teleporter = elektronischer Zeigeteleporter
+magic point teleporter = magischer Zeigeteleporter
+infinite point teleporter = unendlicher Zeigeteleporter

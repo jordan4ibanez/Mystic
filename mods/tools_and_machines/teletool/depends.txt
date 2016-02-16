@@ -1,0 +1,4 @@
+intllib?
+technic?
+default?
+mana?

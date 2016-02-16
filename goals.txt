@@ -1,0 +1,33 @@
+--[[
+
+INTRO:
+Welcome to the code of the mystic gamemode. This gamemode adds in a bunch of things to make the game more fun.
+
+GOALS:
+# Writeable books/paper, realistic bookshelves, book entities, randomly generating bookshelves/books
+
+# Fish, water creatures, underwater plantlife
+
+# Fishing, lures, bait, worm/frog/fly/gnat entities to catch, spawn worm entity when a dirt/grass node is dug
+
+# 3d ladders (That can't be placed on the ground), torches, 
+
+# Minecraft like crafting (to add artificial difficulty)
+
+# Better boat physics, mesh, different types of boats
+
+# 3d Chest mesh
+
+# 3d Cactus
+
+# Better TNT (dynamite)
+
+# Add in upgrades to all inventory bars through achievements
+
+# Make ladders like minecraft ladders
+
+# Make jungle plants drop green dye as well as cotton seed
+
+# Make drinking drinks replenish stamina
+
+]]--
