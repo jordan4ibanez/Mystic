@@ -1,8 +1,12 @@
+--try to mimic node collision boxes by creating multiple entities attached in an entity with no collision box
+
 bvav_settings = {}
-bvav_settings.attach_scaling = -30
+bvav_settings.attach_scaling = 30
 bvav_settings.scaling = 0.667
 
-math.randomseed( os.time() )
+bvav_settings.node_table = {"default:wood","default:tree","default:glass"}
+
+
 minetest.register_entity("bvav:bvav_element", {
 	initial_properties = {
 		physical = true,
@@ -50,6 +54,15 @@ minetest.register_entity("bvav:bvav_element", {
 			
 		else
 			--self.object:setvelocity({x=math.random(-1,1)*math.random(),y=0,z=math.random(-1,1)*math.random()})
+			--let player control vessel
+			if self.controller then
+				local vel = minetest.get_player_by_name(self.controller):get_look_dir()
+				vel.x = vel.x * 2
+				vel.y = vel.y * 2
+				vel.z = vel.z * 2
+				self.object:setvelocity(vel)
+			end
+			
 		end
 	end,
 	--
@@ -61,7 +74,7 @@ function spawn_bvav_element(p, node)
 	obj:get_luaentity():set_node(node)
 	return obj
 end
-
+--[[
 minetest.register_chatcommand("bvav", {
 	params = "",
 	description = "Send text to chat",
@@ -77,10 +90,10 @@ minetest.register_chatcommand("bvav", {
 			
 	end,
 })
-
+]]--
 function bvav_create_vessel(pos)
 
-	local parent = spawn_bvav_element(pos, {name="default:wood"})
+	local parent = spawn_bvav_element(pos, {name="bvav:control_node"})
 	local basepos = parent:getpos()
 
 	local range = 2
@@ -93,28 +106,36 @@ function bvav_create_vessel(pos)
 	local emin, emax = vm:read_from_map(min,max)
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 	local data = vm:get_data()
+	
+	local air = minetest.get_content_id("air")
 
-
-	--build the air ship
+	--build the vessel
 	for x = range*-1,range do
 		for y = range*-1,range do
 			for z = range*-1,range do
-				local node = vm:get_node_at({x=pos.x+x,y=pos.y+y,z=pos.z+z}).name
-				
-				local child  = spawn_bvav_element(pos, {name=node})
-				child:get_luaentity().parent = parent
-				child:get_luaentity().relative = {x=(basepos.x - pos.x) * bvav_settings.attach_scaling,y=(basepos.y - pos.y) * bvav_settings.attach_scaling,z= (basepos.z - pos.z) * bvav_settings.attach_scaling}
+				local pos = {x=basepos.x+x,y=basepos.y+y,z=basepos.z+z}
+				--entities for the vessel
+				local node = vm:get_node_at(pos).name
+				print(dump(node))
+				if node ~= "air" then
+					local child = spawn_bvav_element(pos, {name=node})
+					child:get_luaentity().parent = parent
+					child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
+				end
+								
+				--delete the nodes added to the vessel
+				local p_pos = area:index(pos.x, pos.y, pos.z)
+				data[p_pos] = air
 				
 			end
 		end
 	end
-
-
-
 	vm:set_data(data)
 	vm:calc_lighting()
 	vm:write_to_map()
 	vm:update_map()
+	
+	return(parent)
 end
 
 
@@ -123,6 +144,8 @@ minetest.register_node("bvav:control_node", {
 	tiles = {"default_stone.png"},
 	groups = {cracky=3, stone=1},
 	on_rightclick = function(pos, node, player, itemstack, pointed_thing)
-		bvav_create_vessel(pos)
+		local vessel = bvav_create_vessel(pos)
+		player:set_attach(vessel, "", {x=0,y=0,z=0}, {x=0,y=0,z=0})
+		vessel:get_luaentity().controller = player:get_player_name()
 	end,
 })
