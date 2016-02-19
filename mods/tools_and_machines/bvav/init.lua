@@ -58,6 +58,10 @@ minetest.register_entity("bvav:bvav_element", {
 
 	-- maybe have cannons, anchors, trolling lines, etc
 	on_step = function(self, dtime)
+		--remove old vessels for now
+		if self.controller == nil and self.parent == nil then
+			self.object:remove()
+		end
 		if self.parent ~= nil then
 			
 		else
@@ -86,6 +90,11 @@ minetest.register_entity("bvav:bvav_element", {
 				end
 			end
 			
+		end
+	end,
+	on_rightclick = function(self, clicker)
+		if clicker:get_player_name() == self.controller then
+			clicker:set_detach()
 		end
 	end,
 	--
@@ -127,13 +136,13 @@ function bvav_create_vessel(pos,param2)
 					local child = spawn_bvav_element(pos, {name=node})
 					child:get_luaentity().parent = parent
 					if param2 == 0 then
-						child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
+						child:get_luaentity().relative = {x=z * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=x * bvav_settings.attach_scaling}
 					elseif param2 == 1 then
 						child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
 					elseif param2 == 2 then
-						child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
+						child:get_luaentity().relative = {x=z * bvav_settings.attach_scaling*-1,y=y * bvav_settings.attach_scaling,z=x * bvav_settings.attach_scaling}
 					elseif param2 == 3 then
-						child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
+						child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling*-1,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
 					end
 					
 				end
