@@ -218,8 +218,20 @@ minetest.register_craft({
 })
 
 
--- SEAPLANTS SAND AND DIRT GENERATION
+-- SEAPLANTS GENERATION
 
+minetest.register_ore({
+    ore_type       = "scatter",
+    ore            = "moreblocks:super_glow_glass",
+    wherein        = "default:water_source",
+    clust_scarcity = 8*8*8,
+    clust_num_ores = 8,
+    clust_size     = 3,
+    height_min     = -31000,
+    height_max     = 64554,
+})
+
+--[[
 
 minetest.register_ore({
 	ore_type       = "scatter",
@@ -537,3 +549,4 @@ minetest.register_alias("seaplants:chewstickbrown","seaplants:kelpbrown")
 minetest.register_alias("seaplants:leavysnackgreen","seaplants:seagrassgreen")
 minetest.register_alias("seaplants:leavysnackblue","seaplants:seagrassred")
 minetest.register_alias("seaplants:seasalad","seaplants:seasaladmix")
+]]--

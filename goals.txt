@@ -36,4 +36,11 @@ GOALS:
 
 # make drinks replenish stamina maybe
 
+# diving outfit that slows down losing breath, or, stops you from losing breath while damaging suit over time
+
+# marijuana mod which allows player's to consume it, bongs, pipes, edibles, joints, different intakes do different things
+#### 
+
+# make lucky block spawn in the world
+
 ]]--
