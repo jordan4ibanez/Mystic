@@ -4,8 +4,16 @@ bvav_settings = {}
 bvav_settings.attach_scaling = 30
 bvav_settings.scaling = 0.667
 
-bvav_settings.node_table = {"default:wood","default:tree","default:glass"}
+bvav_settings.ship_size = 5
 
+
+function bvav_settings.set(list)
+  local set = {}
+  for _, l in ipairs(list) do set[l] = true end
+  return set
+end
+
+bvav_settings.node_table = bvav_settings.set{"default:wood","default:tree","default:glass"}
 
 minetest.register_entity("bvav:bvav_element", {
 	initial_properties = {
@@ -56,11 +64,26 @@ minetest.register_entity("bvav:bvav_element", {
 			--self.object:setvelocity({x=math.random(-1,1)*math.random(),y=0,z=math.random(-1,1)*math.random()})
 			--let player control vessel
 			if self.controller then
-				local vel = minetest.get_player_by_name(self.controller):get_look_dir()
-				vel.x = vel.x * 2
-				vel.y = vel.y * 2
-				vel.z = vel.z * 2
-				self.object:setvelocity(vel)
+				local control = minetest.get_player_by_name(self.controller):get_player_control()
+				if control.jump == true or control.sneak == true or control.up == true then
+					local vel = {}
+					if control.jump == true then
+						vel.y = 3
+					elseif control.sneak == true then
+						vel.y = -3
+					else
+						vel.y = 0
+					end
+					if control.up == true then
+						local dir = minetest.get_player_by_name(self.controller):get_look_dir()
+						vel.x = dir.x * 2
+						vel.z = dir.z * 2
+					else
+						vel.x = 0
+						vel.z = 0
+					end
+					self.object:setvelocity(vel)
+				end
 			end
 			
 		end
@@ -74,29 +97,13 @@ function spawn_bvav_element(p, node)
 	obj:get_luaentity():set_node(node)
 	return obj
 end
---[[
-minetest.register_chatcommand("bvav", {
-	params = "",
-	description = "Send text to chat",
-	func = function(name)
-		pos = minetest.get_player_by_name(name):getpos()
-		local parent = spawn_bvav_element(pos, {name="default:wood"})
-		local basepos = parent:getpos()
-		
-		pos.y = pos.y + 1
-		local child  = spawn_bvav_element(pos, {name="default:wood"})
-		child:get_luaentity().parent = parent
-		child:get_luaentity().relative = {x=(basepos.x - pos.x) * bvav_settings.attach_scaling,y=(basepos.y - pos.y) * bvav_settings.attach_scaling,z= (basepos.z - pos.z) * bvav_settings.attach_scaling}
-			
-	end,
-})
-]]--
+
 function bvav_create_vessel(pos)
 
 	local parent = spawn_bvav_element(pos, {name="bvav:control_node"})
 	local basepos = parent:getpos()
 
-	local range = 2
+	local range = bvav_settings.ship_size
 	
 	
 	
@@ -116,8 +123,7 @@ function bvav_create_vessel(pos)
 				local pos = {x=basepos.x+x,y=basepos.y+y,z=basepos.z+z}
 				--entities for the vessel
 				local node = vm:get_node_at(pos).name
-				print(dump(node))
-				if node ~= "air" then
+				if bvav_settings.node_table[node] then
 					local child = spawn_bvav_element(pos, {name=node})
 					child:get_luaentity().parent = parent
 					child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
