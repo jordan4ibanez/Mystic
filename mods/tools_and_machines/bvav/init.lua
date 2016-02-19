@@ -68,25 +68,29 @@ minetest.register_entity("bvav:bvav_element", {
 			--self.object:setvelocity({x=math.random(-1,1)*math.random(),y=0,z=math.random(-1,1)*math.random()})
 			--let player control vessel
 			if self.controller then
-				local control = minetest.get_player_by_name(self.controller):get_player_control()
-				if control.jump == true or control.sneak == true or control.up == true then
-					local vel = {}
-					if control.jump == true then
-						vel.y = 3
-					elseif control.sneak == true then
-						vel.y = -3
-					else
-						vel.y = 0
+				if minetest.get_player_by_name(self.controller):get_attach() ~= nil then
+					local control = minetest.get_player_by_name(self.controller):get_player_control()
+					if control.jump == true or control.sneak == true or control.up == true then
+						local vel = {}
+						if control.jump == true then
+							vel.y = 3
+						elseif control.sneak == true then
+							vel.y = -3
+						else
+							vel.y = 0
+						end
+						if control.up == true then
+							local dir = minetest.get_player_by_name(self.controller):get_look_dir()
+							vel.x = dir.x * 2
+							vel.z = dir.z * 2
+						else
+							vel.x = 0
+							vel.z = 0
+						end
+						self.object:setvelocity(vel)
 					end
-					if control.up == true then
-						local dir = minetest.get_player_by_name(self.controller):get_look_dir()
-						vel.x = dir.x * 2
-						vel.z = dir.z * 2
-					else
-						vel.x = 0
-						vel.z = 0
-					end
-					self.object:setvelocity(vel)
+				else
+					self.object:setvelocity({x=0,y=0,z=0})
 				end
 			end
 			
