@@ -98,7 +98,7 @@ function spawn_bvav_element(p, node)
 	return obj
 end
 
-function bvav_create_vessel(pos)
+function bvav_create_vessel(pos,param2)
 
 	local parent = spawn_bvav_element(pos, {name="bvav:control_node"})
 	local basepos = parent:getpos()
@@ -126,7 +126,16 @@ function bvav_create_vessel(pos)
 				if bvav_settings.node_table[node] then
 					local child = spawn_bvav_element(pos, {name=node})
 					child:get_luaentity().parent = parent
-					child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
+					if param2 == 0 then
+						child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
+					elseif param2 == 1 then
+						child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
+					elseif param2 == 2 then
+						child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
+					elseif param2 == 3 then
+						child:get_luaentity().relative = {x=x * bvav_settings.attach_scaling,y=y * bvav_settings.attach_scaling,z=z * bvav_settings.attach_scaling}
+					end
+					
 				end
 								
 				--delete the nodes added to the vessel
@@ -149,8 +158,10 @@ minetest.register_node("bvav:control_node", {
 	description = "Control Node",
 	tiles = {"default_stone.png"},
 	groups = {cracky=3, stone=1},
+	paramtype2 = "facedir",
 	on_rightclick = function(pos, node, player, itemstack, pointed_thing)
-		local vessel = bvav_create_vessel(pos)
+		print(node.param2)
+		local vessel = bvav_create_vessel(pos,node.param2)
 		player:set_attach(vessel, "", {x=0,y=0,z=0}, {x=0,y=0,z=0})
 		vessel:get_luaentity().controller = player:get_player_name()
 	end,
